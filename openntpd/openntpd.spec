@@ -5,7 +5,7 @@
 
 Name:           openntpd
 Version:        5.9p1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        free and easy to use implementation of the network time protocol
 
 Group:          -
@@ -13,6 +13,7 @@ License:        BSD
 URL:            http://www.openntpd.org/
 Source0:        http://ftp2.eu.openbsd.org/pub/OpenBSD/OpenNTPD/%{name}-%{version}.tar.gz
 Source1:        openntpd.service
+Source2:        openntpd.sysconfig
 
 BuildRequires:          systemd
 Requires(pre):          shadow-utils
@@ -45,6 +46,7 @@ make %{?_smp_mflags}
 
 # install service file
 install -D -m 644 %{SOURCE1} $RPM_BUILD_ROOT/%{_unitdir}/openntpd.service
+install -D -m 644 %{SOURCE2} $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/openntpd
 
 # move the binary and man page for the ntpd -> openntpd change
 pushd $RPM_BUILD_ROOT
@@ -76,6 +78,7 @@ exit 0
 %files
 %defattr(-,root,root)
 %config(noreplace) %{_sysconfdir}/ntpd.conf
+%config(noreplace) %{_sysconfdir}/sysconfig/openntpd
 %{_sbindir}/*
 %{_unitdir}/openntpd.service
 %doc %{_mandir}
